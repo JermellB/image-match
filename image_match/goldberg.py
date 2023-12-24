@@ -486,15 +486,15 @@ class ImageSignature(object):
                                   grey_level_matrix.shape[0])
 
             upper_left_neighbors = sum(
-                [np.diagflat(np.insert(np.diff(np.diag(grey_level_matrix, i)), 0, 0), i)
-                 for i in diagonals])
+                np.diagflat(np.insert(np.diff(np.diag(grey_level_matrix, i)), 0, 0), i)
+                 for i in diagonals)
             lower_right_neighbors = -np.pad(upper_left_neighbors[1:, 1:],
                                             (0, 1), mode='constant')
 
             # flip for anti-diagonal differences
             flipped = np.fliplr(grey_level_matrix)
-            upper_right_neighbors = sum([np.diagflat(np.insert(
-                np.diff(np.diag(flipped, i)), 0, 0), i) for i in diagonals])
+            upper_right_neighbors = sum(np.diagflat(np.insert(
+                np.diff(np.diag(flipped, i)), 0, 0), i) for i in diagonals)
             lower_left_neighbors = -np.pad(upper_right_neighbors[1:, 1:],
                                            (0, 1), mode='constant')
 
