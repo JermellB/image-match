@@ -70,8 +70,7 @@ class SignatureMongo(SignatureDatabaseBase):
             # build children processes, taking cursors from in_process queue first, then initial queue
             p = list()
             while len(p) < n_parallel_words:
-                word_pair = initial_q.get()
-                if word_pair == 'STOP':
+                if (word_pair := initial_q.get()) == 'STOP':
                     # if we reach the sentinel value, set the flag and stop queuing processes
                     queue_empty = True
                     break
@@ -95,8 +94,7 @@ class SignatureMongo(SignatureDatabaseBase):
             num_processes = len(p)
 
             while num_processes:
-                results = results_q.get()
-                if results == 'STOP':
+                if (results := results_q.get()) == 'STOP':
                     num_processes -= 1
                 else:
                     for key in results.keys():
